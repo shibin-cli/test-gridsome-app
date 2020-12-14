@@ -2,7 +2,7 @@ const axios = require('axios')
 const instance = axios.create({
     baseURL: 'https://api.github.com/users/shibin-cli',
     params: {
-        access_token: 'c8445b33f5134e2319ce3d97bb90d57d176499e7'
+        // access_token: 'c8445b33f5134e2319ce3d97bb90d57d176499e7'
     }
 })
 instance.interceptors.response.use(function (response) {
