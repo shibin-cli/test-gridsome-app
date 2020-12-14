@@ -3,14 +3,17 @@
   "scripts": {
     "build": "gridsome build",
     "develop": "gridsome develop",
-    "explore": "gridsome explore"
+    "explore": "gridsome explore",
+    "commit": "git-cz"
   },
   "dependencies": {
     "axios": "^0.21.0",
+    "dayjs": "^1.9.7",
     "element-ui": "^2.14.1",
     "gridsome": "^0.7.0"
   },
   "devDependencies": {
-    "babel-plugin-component": "^1.1.1"
+    "babel-plugin-component": "^1.1.1",
+    "git-cz": "^4.7.6"
   }
 }

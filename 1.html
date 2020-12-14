@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const instance = axios.create({
+        baseURL: 'https://api.github.com/users/shibin-cli',
+        params: {
+            access_token: 'c8445b33f5134e2319ce3d97bb90d57d176499e7'
+        }
+    })
+    instance.interceptors.response.use(function (response) {
+        return response.data
+    }, function (error) {
+        return Promise.reject(error);
+    });
+    instance.get('').then(data=>{
+        console.log(data)
+    })
+</script>
+
+</html>
