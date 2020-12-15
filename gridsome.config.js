@@ -7,6 +7,7 @@
 module.exports = {
   siteName: 'Gridsome',
   plugins: [],
+  pathPrefix:'/test-gridsome-app/',
   templates: {
     gist: [{
       path: '/blog/:id',
