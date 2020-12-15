@@ -4,9 +4,9 @@
       <div slot="header" class="clearfix">
         <span>{{ $page.dynamic.edges[0].node.title }}</span>
       </div>
-      <div>发布 {{ $page.dynamic.edges[0].node.created_at | format }}</div>
-      <div>更新 {{ $page.dynamic.edges[0].node.updated_at | format }}</div>
-      <h3>说明</h3>
+      <div class="date">发布 {{ $page.dynamic.edges[0].node.created_at | formatDate }}</div>
+      <div class="date">更新 {{ $page.dynamic.edges[0].node.updated_at | formatDate }}</div>
+      <h3>{{$page.dynamic.edges[0].node.description}}</h3>
       <el-divider></el-divider>
       <div v-html="markdown($page.dynamic.edges[0].node.content)">
       </div>
@@ -21,6 +21,7 @@ query{
         url
         title
         content
+        description
         created_at
         updated_at
       }
@@ -29,18 +30,11 @@ query{
 }
 </page-query>
 <script>
-import dayjs from "dayjs";
 import MarkdownIt from "markdown-it";
 let md = new MarkdownIt();
 export default {
   metaInfo: {
     title: "最新动态",
-  },
-  filters: {
-    format(val, format = "YYYY-MM-DD HH:mm:ss") {
-      return dayjs(val).format(format);
-    },
-   
   },
   methods:{
      markdown(content) {
@@ -49,5 +43,10 @@ export default {
   }
 };
 </script>
-
-
+<style>
+.date {
+  font-size: 13px;
+  color: rgb(96, 108, 113);
+  line-height: 22px;
+}
+</style>

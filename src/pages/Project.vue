@@ -38,7 +38,7 @@
         </el-button>
       </div>
       <div class="text item">
-        <div class="date">最近更新 {{ repo.node.createdAt | format }}</div>
+        <div class="date">最近更新 {{ repo.node.createdAt | formatDate }}</div>
         <div class="repo-name">{{ repo.node.description || "暂无描述" }}</div>
         <el-row>
           <el-col :span="16">
@@ -134,6 +134,7 @@ query($page: Int){
 }
 </page-query>
 <script>
+import { copyText } from "../uitls";
 import dayjs from "dayjs";
 export default {
   metaInfo: {
@@ -143,11 +144,6 @@ export default {
     return {
       keyword: "",
     };
-  },
-  filters: {
-    format(val, format = "YYYY-MM-DD HH:mm:ss") {
-      return dayjs(val).format(format);
-    },
   },
   methods: {
     handleCurrentChange(val) {
@@ -160,16 +156,19 @@ export default {
       window.open(git_url);
     },
     copy() {
-      let doc = document.createElement("input");
-      doc.value = window.location.href;
-      document.body.appendChild(doc);
-      doc.select();
-      let status = document.execCommand("copy");
-      this.$notify({
-        title: "提示",
-        message: "链接已复制,去分享给好友吧!!",
-        type: "success",
-      });
+      if (copyText(window.location.href)) {
+        this.$notify({
+          title: "提示",
+          message: "链接已复制,去分享给好友吧!!",
+          type: "success",
+        });
+      } else {
+        this.$notify({
+          title: "提示",
+          message: "当前浏览器不支持复制，换个浏览器再试试吧！！",
+          type: "error",
+        });
+      }
     },
   },
 };

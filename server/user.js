@@ -1,9 +1,9 @@
 const axios = require('axios')
 const instance = axios.create({
     baseURL: 'https://api.github.com/users/shibin-cli',
-    params: {
-        // access_token: 'c8445b33f5134e2319ce3d97bb90d57d176499e7'
-    }
+    // params: {
+    //     access_token: 'ac38a984c10feb1bf965477638b9b85daaf0a861'
+    // }
 })
 instance.interceptors.response.use(function (response) {
     return response.data
@@ -50,7 +50,7 @@ module.exports = api => {
                 instance.get('followers?page=1&per_page=' + user.followers), //粉丝
                 instance.get('following?page=1&per_page=' + user.following), //关注
                 instance.get('gists?page=1&per_page=' + user.public_gists), //博客列表
-                instance.get('repos?page=1&per_page=' + user.public_gists) //仓库列表
+                instance.get('repos?page=1&per_page=' + user.public_repos) //仓库列表
             ])
             console.log('获取完毕...')
 
@@ -80,11 +80,22 @@ module.exports = api => {
                 followingCollection.addNode(item)
             })
             // 博客列表
+            console.log('获取博客详情...')
             const gistsCollection = addCollection('gist')
-            gists.forEach(item => {
-                delete item.files
+            for(let i in gists){
+                let item = gists[i]
+                if (item.files) {
+                    item.title = Object.keys(item.files)[0]
+                    // 详情
+                    const detail = await instance.get('https://api.github.com/gists/' + item.id) 
+                    item.content = detail.files[item.title].content
+                    delete item.files
+                }
+                // console.log(item)
                 gistsCollection.addNode(item)
-            })
+            }
+           
+            console.log('获取完毕...')
             // 仓库列表
             const reposCollection = addCollection('repos')
             repos.forEach(item => {
